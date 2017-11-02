@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="toDo">
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>todo</title>
+	<style>
+		.done{
+			text-decoration: line-through; color: #ccc;
+		
+		}
+		
+	</style>
+</head>
+<body>
+
+	<div ng-controller="todoController">
+		<h1 style="margin-top: 200px; margin-left: 500px;"> To-Do list app </h1>
+		<hr style="margin-left:500px; margin-right:300px;">
+
+		<div style="margin-left:500px; margin-right:300px;">
+
+	<form name="frm" ng-submit="addtodo()">
+	
+		<input type="text" ng-model="newtodo" name="newtodo" style="height:40px; " required>
+	
+		<button ng-disabled="frm.$invalid" class="btn btn-warning"> Go! </button>
+
+	</form>
+	<br>
+	<button ng-click="clearcompleted()" class="btn btn-danger"> Clear Completed </button>
+	<br>
+	<br>
+	<ul style="list-style-type: none; padding-left: 0px;" ng-class="{'ul-done':todo.done}">
+		<li ng-repeat="todo in todos" style="border: 1px solid gray; border-radius: 5px; padding: 5px; margin-bottom:8px;">
+			<input type="checkbox" ng-model = "todo.done">
+			<span ng-class="{'done':todo.done}"> {{ todo.title }} </span> 
+		</li>
+		<br>
+	</ul>
+</div>
+</div>
+	<script src="bower_components/angular/angular.min.js">  </script>
+	<script>
+
+		angular.module('toDo',[]).
+		controller('todoController',['$scope',function($scope){
+
+			$scope.todos = [
+			{'title' : 'build todo app', 'done': false}
+
+			];
+			$scope.addtodo = function(){
+
+				$scope.todos.push({'title':$scope.newtodo, 'done' :false});
+				$scope.newtodo = '';
+			}
+			$scope.clearcompleted = function(){
+				$scope.todos = $scope.todos.filter(function(item){
+					return !item.done 
+				})
+			}
+		}]);
+	</script>
+
+
+</body>
+</html>
